@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scanline — ATS Resume Matcher</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/chart.js@4.4.4/dist/chart.umd.min.js';"></script>
+<script src="chartManager.js?v=1"></script>
+</head>
+<body>
+
+<div class="scan-overlay" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◎</span>
+    <span class="brand-name">Scanline</span>
+    <span class="brand-tag">ATS Resume Matcher</span>
+  </div>
+  <div class="topbar-status" id="apiStatus">
+    <span class="dot"></span> checking engine…
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- INPUT DECK -->
+  <section class="deck" id="inputDeck">
+    <div class="deck-head">
+      <h1>Run a scan</h1>
+      <p>Drop a resume and a job description. Scanline reads both the same way an ATS does — then explains every point it gave or took away.</p>
+    </div>
+
+    <div class="input-grid">
+      <div class="panel" id="resumePanel">
+        <div class="panel-label"><span>01</span> Resume</div>
+        <div class="dropzone" id="dropzone" tabindex="0">
+          <input type="file" id="fileInput" accept=".pdf,.docx,.txt" hidden>
+          <div class="dz-icon">⇪</div>
+          <p class="dz-text">Drop a .pdf, .docx, or .txt — or click to browse</p>
+          <p class="dz-file" id="dzFileName"></p>
+        </div>
+        <div class="or-row"><span>or paste resume text</span></div>
+        <textarea id="resumeTextArea" placeholder="Paste resume text here…"></textarea>
+      </div>
+
+      <div class="panel">
+        <div class="panel-label"><span>02</span> Job description</div>
+        <textarea id="jdTextArea" placeholder="Paste the job description here…" class="jd-area"></textarea>
+      </div>
+    </div>
+
+    <button id="scanBtn" class="scan-btn">
+      <span class="scan-btn-label">Run Scan</span>
+      <span class="scan-btn-sub">40% semantic · 25% skills · 15% experience · 10% education · 10% keywords</span>
+    </button>
+    <p class="error-msg" id="errorMsg"></p>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="deck results-deck" id="resultsDeck" hidden>
+
+    <div class="results-header">
+      <div class="gauge-wrap">
+        <canvas id="gaugeChart" width="220" height="220"></canvas>
+        <div class="gauge-center">
+          <div class="gauge-score" id="gaugeScore">0</div>
+          <div class="gauge-level" id="gaugeLevel">—</div>
+        </div>
+      </div>
+      <div class="candidate-block">
+        <div class="candidate-name" id="candidateName">Candidate</div>
+        <div class="candidate-meta" id="candidateMeta"></div>
+        <div class="method-note" id="methodNote"></div>
+        <button class="rescan-btn" id="rescanBtn">↺ New scan</button>
+      </div>
+    </div>
+
+    <div class="breakdown-grid">
+      <div class="bar-row">
+        <div class="bar-label">Semantic Similarity <span>40%</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-semantic"></div></div>
+        <div class="bar-val" id="val-semantic">0%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Skills Match <span>25%</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-skills"></div></div>
+        <div class="bar-val" id="val-skills">0%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Experience Match <span>15%</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-experience"></div></div>
+        <div class="bar-val" id="val-experience">0%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Education Match <span>10%</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-education"></div></div>
+        <div class="bar-val" id="val-education">0%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Keyword Coverage <span>10%</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-keyword"></div></div>
+        <div class="bar-val" id="val-keyword">0%</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Score composition</h3>
+        <canvas id="pieChart" height="220"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Match profile</h3>
+        <canvas id="radarChart" height="220"></canvas>
+      </div>
+    </div>
+
+    <div class="findings-grid">
+      <div class="findings-card strengths">
+        <h3>Strengths</h3>
+        <ul id="strengthsList" class="chip-list"></ul>
+      </div>
+      <div class="findings-card missing">
+        <h3>Missing skills</h3>
+        <div id="missingByCategory"></div>
+      </div>
+    </div>
+
+    <div class="findings-card suggestions">
+      <h3>Improvement suggestions</h3>
+      <ol id="suggestionsList"></ol>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="script.js?v=2"></script>
+</body>
+</html>
