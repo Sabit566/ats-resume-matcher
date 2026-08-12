@@ -1,8 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-import os
 
 from resume_parser import parse_resume
 from jd_parser import parse_job_description
@@ -22,9 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
-
 
 @app.post("/api/match")
 async def match_resume(
@@ -73,7 +67,3 @@ async def match_resume(
 @app.get("/api/health")
 def health():
     return {"status": "ok"}
-
-
-# Serve the static frontend
-app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
