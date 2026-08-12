@@ -6,7 +6,7 @@
 
 # If your frontend folder is being treated as vendored/generated, un-vendor it explicitly.
 # Replace "frontend/" and "static/" with your actual folder names.
-frontend/* linguist-detectable=true
+docs/* linguist-detectable=true
 static/* linguist-detectable=true
 
 # Optional: if you have minified files you DON'T want counted, keep those vendored
