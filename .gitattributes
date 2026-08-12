@@ -1,14 +1,14 @@
-# Force GitHub to count these as their real language,
-# even if they sit in a folder Linguist normally ignores (static/, dist/, frontend/, etc.)
+# Count HTML, CSS and JavaScript files as real languages
 *.html linguist-detectable=true
 *.css linguist-detectable=true
 *.js linguist-detectable=true
 
-# If your frontend folder is being treated as vendored/generated, un-vendor it explicitly.
-# Replace "frontend/" and "static/" with your actual folder names.
-docs/* linguist-detectable=true
-static/* linguist-detectable=true
+# Make files inside docs/ count
+docs/** linguist-detectable=true
 
-# Optional: if you have minified files you DON'T want counted, keep those vendored
+# If docs/ was classified as vendored, explicitly un-vendor it
+docs/** linguist-vendored=false
+
+# Don't count minified files
 *.min.js linguist-generated=true
 *.min.css linguist-generated=true
