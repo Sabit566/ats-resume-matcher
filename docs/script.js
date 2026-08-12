@@ -1,4 +1,4 @@
-const API_BASE = ""; // same-origin; change to e.g. "http://localhost:8000" if serving frontend separately
+const API_BASE = "https://ats-resume-matcher-bvyb.onrender.com"; // same-origin; change to e.g. "http://localhost:8000" if serving frontend separately
 
 const els = {
   apiStatus: document.getElementById("apiStatus"),
