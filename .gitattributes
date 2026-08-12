@@ -1,14 +1,14 @@
-# Count HTML, CSS and JavaScript files as real languages
-*.html linguist-detectable=true
-*.css linguist-detectable=true
-*.js linguist-detectable=true
+# Frontend files
+docs/**/*.html linguist-detectable=true
+docs/**/*.css linguist-detectable=true
+docs/**/*.js linguist-detectable=true
 
-# Make files inside docs/ count
-docs/** linguist-detectable=true
-
-# If docs/ was classified as vendored, explicitly un-vendor it
+# Make sure the docs frontend is not treated as vendored
 docs/** linguist-vendored=false
 
-# Don't count minified files
-*.min.js linguist-generated=true
-*.min.css linguist-generated=true
+# Make sure frontend files are not treated as generated
+docs/** linguist-generated=false
+
+# Do not count minified files
+docs/**/*.min.js linguist-generated=true
+docs/**/*.min.css linguist-generated=true
